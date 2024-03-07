@@ -1,4 +1,4 @@
-// import GlobalLayout from "./components/GlobalLayout";
+import GlobalLayout from "./components/GlobalLayout";
 import Login from "./components/Login";
 import { ConfigProvider, theme } from 'antd';
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
+import Dashboard from './Dashboard';
+import Notes from './Notes';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -22,37 +24,35 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem('Dashboard', '1'),
+  getItem('Notes', '2'),
 ];
 
 const GlobalLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const [selectedMenuKey, setSelectedMenuKey] = useState<string>('1');
+  const handleMenuSelect = ({ key }: { key: React.Key }) => { setSelectedMenuKey(key.toString()); };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
-        yo
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={['1']}
+          mode="inline"
+          items={items}
+          onSelect={handleMenuSelect}
+        />
       </Sider>
       <Layout>
         <Content style={{ margin: '16px' }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Frame
-          </div>
+          {selectedMenuKey === '1' ? (
+            <Dashboard/>
+          ) : selectedMenuKey === '2' ? (
+            <Notes/>
+          ) : null}
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Projects ©{new Date().getFullYear()}
-        </Footer>
+        <Footer style={{ textAlign: 'center' }}>Projects ©{new Date().getFullYear()}</Footer>
       </Layout>
     </Layout>
   );
